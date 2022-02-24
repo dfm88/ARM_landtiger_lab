@@ -33,6 +33,10 @@ void enable_timer(uint8_t timer_num)
 	{
 		LPC_TIM2->TCR = 1;
 	}
+	else if (timer_num == 3)
+	{
+		LPC_TIM3->TCR = 1;
+	}
 	return;
 }
 
@@ -58,6 +62,10 @@ void disable_timer(uint8_t timer_num)
 	else if (timer_num == 2)
 	{
 		LPC_TIM2->TCR = 0;
+	}
+	else if (timer_num == 3)
+	{
+		LPC_TIM3->TCR = 0;
 	}
 	return;
 }
@@ -92,6 +100,12 @@ void reset_timer(uint8_t timer_num)
 		regVal = LPC_TIM2->TCR;
 		regVal |= 0x02;
 		LPC_TIM2->TCR = regVal;
+	}
+	else if (timer_num == 3)
+	{
+		regVal = LPC_TIM3->TCR;
+		regVal |= 0x02;
+		LPC_TIM3->TCR = regVal;
 	}
 	return;
 }

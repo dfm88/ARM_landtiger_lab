@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include "../led/led.h"
 #include "../RIT/RIT.h"
+#include "../exam/exam.h"
 
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler
@@ -35,7 +36,7 @@ uint16_t SinTable[45] = /*                      */
 		650, 602, 550, 495, 438, 381, 324, 270, 217,
 		169, 125, 87, 55, 30, 12, 2, 0, 6,
 		20, 41, 70, 105, 146, 193, 243, 297, 353};
-
+	
 
 void TIMER0_IRQHandler(void)
 {
@@ -44,6 +45,13 @@ void TIMER0_IRQHandler(void)
 	// 	// XXX se IR � 0001 allora ha interrotto il MR0,
 	// 	//     se IR � 0010    ''          ''       MR1 ecc..
 	// }
+	
+	if(is_showing_lung_array) {
+		show_lung_array();
+	} else {
+		show_duty_cycle();	
+	}
+	
 	/*---*/
 	LPC_TIM0->IR = 1; /* clear interrupt flag */
 
@@ -92,7 +100,8 @@ void TIMER2_IRQHandler(void)
 ******************************************************************************/
 void TIMER3_IRQHandler(void)
 {
-
+	
+	switch_to_monitor(LPC_TIM3->TC);
 	LPC_TIM3->IR = 1; /* clear interrupt flag of MR0 */
 	return;
 }

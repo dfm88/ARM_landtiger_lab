@@ -1,10 +1,33 @@
 #include "LPC17xx.h"
+#define N 5
 
-static int score1 = 0;
-static int score2 = 0;
-static uint8_t is_exam_over;
+extern int is_in_monitor;
+
+extern char valore_iniziale;
+extern uint8_t last_sample;
+extern uint8_t is_showing_lung_array;
+extern unsigned int tempi_variazioni[N];
 
 
-void exam_init(void);
+///
 uint8_t increase_score_exam(int); 
 int is_colliding_exam(int* abc1, int abc2);
+///
+
+void exam_init(void);
+void switch_to_monitor(int tempo_tot);
+void switch_to_acquisiz(void);
+void sample_timer(void);
+
+void show_lung_array(void);
+void show_duty_cycle(void);
+
+
+
+
+
+
+
+
+
+

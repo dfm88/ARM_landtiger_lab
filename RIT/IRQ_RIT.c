@@ -11,6 +11,7 @@
 #include "RIT.h"
 #include "../timer/timer.h"
 #include "../led/led.h"
+#include "../exam/exam.h"
 
 /******************************************************************************
 ** Function name:		RIT_IRQHandler
@@ -21,7 +22,9 @@
 ** Returned value:		None
 **
 ******************************************************************************/
-
+volatile int key1_down;
+volatile int key2_down;
+volatile int key0_down;
 
 void RIT_IRQHandler(void)
 {
@@ -37,6 +40,8 @@ void RIT_IRQHandler(void)
 	// ((LPC_GPIO2->FIOPIN & (1 << 10)) == 0  /* INT0 pressed */
 	// TIMER
 	// VAR = LPC_RIT->RICOUNTER;  take the rit value
+	// val_int = LPC_TIM1 -> TC; leggo il valore di TC TIMER 1
+				
 
 	/* Button De Bouncing Management */
 	// KEY 1
@@ -70,6 +75,8 @@ void RIT_IRQHandler(void)
 				switch (key2_down)
 				{
 				case 2: // RIT is always on due to adc, so i wait 2*50ms to execute button action
+					if(is_in_monitor)
+						switch_to_acquisiz();
 					break;
 				default:
 					break;
@@ -105,10 +112,22 @@ void RIT_IRQHandler(void)
 		}
 	}
 
-	if((LPC_GPIO1->FIOPIN & (1<<28)) == 0)	 
-	{/* Joytick right pressed */
-		return;
-	}
+	// prendo il valore del joystick ogni 25 ms, se � up o idle
+	if((LPC_GPIO1->FIOPIN & (1<<29)) == 0)	 
+	{/* Joytick up pressed */
+		if(!last_sample){ //se l'ultimo valore acquisito era 0
+			last_sample ^= 1;
+			sample_timer();//vuol dire che ho cambiato stato, posso acquisire il valore
+						 
+		}           // altrimenti no devo acquisire il nuovo valore
+		
+	} else { // joystick � in posizione idle
+		if(last_sample){ //se l'ultimo valore acquisito era 1
+			last_sample ^= 1;
+			sample_timer();//vuol dire che ho cambiato stato, posso acquisire il valore
+			
+		}
+	};
 
 	
 	LPC_RIT->RICTRL |= 0x1; /* clear interrupt flag */

@@ -28,6 +28,7 @@
 #include "RIT/RIT.h"
 #include "dac/dac.h"
 #include "led/led.h"
+#include "exam/exam.h"
 
 #define SIMULATOR 1
 
@@ -72,15 +73,16 @@ int main(void)
 
 	BUTTON_init();
 	LED_init();
+	exam_init();
 	init_RIT(0x004C4B40);
 	/* RIT Initialization 50ms : conoscendo la sua frequenza di 100MHz
 								 la costante di tempo è 50ms*100MHz
 								 0.05s * 100000000 = 5000000 = Hex 0x4C4B40
 	*/
 	enable_RIT();
-
-
-
+	
+	init_timer(0, 0, 0, 3, 0x2625A0); 
+	
 
 
 	LPC_SC->PCON |= 0x1; /* power-down	mode										*/
