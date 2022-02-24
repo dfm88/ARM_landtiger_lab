@@ -46,14 +46,18 @@ void switch_to_monitor(int temp_tot)
 	disable_timer(3);
 	reset_timer(3);
 	
-	// take the duty cycle value
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx hard cooooded
-	valore_iniziale= 1;
-	temp_tot = 150;
-	tempi_variazioni[0] = 65;
-	tempi_variazioni[1] = 110;
-	tempi_variazioni[2] = 125;
-	nr_acquisizioni= 3;
+	//valore_iniziale= 1;
+	//temp_tot = 150;
+	//tempi_variazioni[0] = 65;
+	//tempi_variazioni[1] = 110;
+	//tempi_variazioni[2] = 125;
+	//tempi_variazioni[3] = 130;
+	//nr_acquisizioni= 4;
+	/////////////////////
+	
+	
+	// take the duty cycle value
 	duty_cycle_val = duty_cycle(valore_iniziale, temp_tot, tempi_variazioni, nr_acquisizioni);
 	show_lung_array();
 	enable_timer(0); //to show lungh_array/dutycycle alternatly with T=1/2Hz
